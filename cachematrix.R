@@ -1,5 +1,9 @@
 ##These two functions interact to calculate the inverse of a matrix, cache the value of the inverse, and return that value. 
 ## When cacheSolve() calculates an inverse, setinv() stores the value in the enclosing environment of makeCacheMatrix.  
+## To use these functions, you could first make a square invertible matrix using matrix(), then pass that matrix to makeCacheMatrix()--makeCacheMatrix(x) if you called your matrix x--
+## which would create a list of functions that allow you to access the values for the matrix, x, and the inverse, inv, in the enclosing environment of makeCacheMatrix when you called it.
+## If you name makeCacheMatrix(x), say, 'test,' then you can look at the matrix with test$get() and find the inverse by calling cacheSolve(test). The first time it will calculate the inverse, 
+## and if you call cacheSolve(test) again withough changing 'test,' it will retrieve the inverse from the cache after showing a message that it is "getting cached data."
 
 ## The first function is a constructor function like the make.power function in the scoping rules video lecture. 
 ## makeCacheMatrix is used to create four other functions that reach into the environment of makeCacheMatrix to get 
