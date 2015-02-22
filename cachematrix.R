@@ -8,9 +8,10 @@
 
 makeCacheMatrix <- function(x = matrix()) {         ## makeCacheMatrix is a function that takes as its argument a matrix, x.
         inv <- NULL                                 ## inv, which will be our name for the inverse eventually, is defined as NULL, so inv here is a placeholder.
-        set <- function(y)  {                       ## the set() function resets the value of the matrix when the matrix changes. For y that is passed through set(), 
-                x <<- y                             ## set() obliterates x and resets the inverse to NULL. This prevents the function from returning the wrong inverse from the cache when cacheSolve is called.
-                inv <<- NULL                        ## inverse from the cache when cacheSolve() is called.
+        set <- function(y)  {                       ## the set() function resets the value of the matrix when the matrix changes, if a user runs set(). For y that is passed through set(), 
+                x <<- y                             ## set() obliterates the stored value in matrix x, resets them to the new values passed to the function, and resets the inverse to NULL. 
+                                                    ## This prevents the function from returning the wrong inverse from the cache when cacheSolve is called.
+                inv <<- NULL                         
         }  
         
         get <- function() x                          ## get is a function that returns the matrix, x. CacheSolve will use it to calculate the inverse if an inverse value has not been cached for x.
@@ -34,7 +35,8 @@ cacheSolve <- function(x,...) {                ## cacheSolve is a function that 
         }
         data <- x$get()                        ## this is the else part of the if/else statement. If inv was NULL because there was no stored value for inv (or it was invalidated by set())
                                                ## then the function calculates the inverse by retrieving the vector, x, from makeCacheMatrix environment with x$get(), 
-                                               ## which calls the function get() from the list returned by makeCacheMatrix
+                                               ## which calls the function get() from the list returned by makeCacheMatrix to retrieve the matrix, x
         inv <- solve(data,...)                 ## and calls solve() on the matrix, x, returned by get(), with additional, if any, parameters from cacheSolve() 
-        inv                                    ## and finally returns the calcuated inv, which is then stored by setinv() in makeCacheMatrix
+        x$setinv(inv)                          ## then stores the value for the inverse returned by solve()
+        inv                                    ## and finally returns the calcuated inv
 }
